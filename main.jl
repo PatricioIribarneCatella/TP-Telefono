@@ -4,6 +4,8 @@ using DSP, WAV, PyPlot
 s, fs = wavread("modemDialing.wav")
 
 # Plot the samples
-plot(0:1/fs:(length(s)-1)/fs, s)
+title("Modem Dialing plot")
+x_axis = (0:(length(s) - 1))./fs
+plot(x_axis, s)
 xlabel("Time [s]")
 
