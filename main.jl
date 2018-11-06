@@ -1,11 +1,27 @@
-using DSP, WAV, PyPlot
-
-# Read the WAV file
-s, fs = wavread("modemDialing.wav")
+using DSP, WAV, PyPlot, Printf
 
 # Plot the samples
-title("Modem Dialing plot")
-x_axis = (0:(length(s) - 1))./fs
-plot(x_axis, s)
-xlabel("Time [s]")
+function plot_wave(s, fs)
+	ts = @sprintf("Modem Dialing - fs: %d", fs)
+	title(ts)
+	x_axis = (0:(length(s) - 1))./fs
+	plot(x_axis, s)
+	xlabel("Time [s]")
+end
+
+function plot_spectrogram(s, fs)
+	specgram()
+end
+
+# Start entry
+function main(wav_file)
+
+	# Read the WAV file
+	s, fs = wavread(wav_file)
+
+	# plot_wave(s, fs)
+	plot_spectrogram(s, fs)
+end
+
+main("modemDialing.wav")
 
