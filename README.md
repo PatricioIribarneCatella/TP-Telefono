@@ -1,6 +1,6 @@
 # TP-Telefono
 
-Análisis del audio de un discado teléfonico (Señales y Sistemas)
+Análisis del audio de un discado telefónico (Señales y Sistemas)
 
 ### Ejecutar
 
