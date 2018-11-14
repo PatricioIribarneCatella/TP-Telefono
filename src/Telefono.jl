@@ -21,14 +21,14 @@ function plot_frec(s, fs)
 	# FFT of the input wave
 	X = abs.(fft(s))
 
-	# Shift so the samples are
+	# Shift it, so the samples are
 	# shown as the real DFT is
 	Xshift = fftshift(X)
 
 	x_axis = (0:length(Xshift)) * (fs/2)
 	
 	# Plot it
-	p = plot(x_axis, Xshift, title="Modem Dialing Frecuency Domain", xlabel="Frec [Hz]")
+	p = plot(x_axis, Xshift, title="Modem Dialing Frecuency Domain", xlabel="Freq [Hz]")
 	
 	# Save it in .png
 	savefig(p, "wave-frec.png")
@@ -37,7 +37,7 @@ end
 # Plots the spectrogram
 function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 
-	# Transform it in a Vector
+	# Transform it into a Vector
 	s = vec(s)
 
 	# Obtains the spectrogram
@@ -56,7 +56,7 @@ function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 
 	# Plot it (HeatMap)
 	hm = heatmap(t, fr, pow .+ eps() .|> log; seriescolor=:bluesreds,
-		     title="Spectrogram", xlabel="Time [s]", ylabel="Frec [Hz]")
+		     title="Spectrogram", xlabel="Time [s]", ylabel="Freq [Hz]")
 
 	# Save it in .png
 	savefig(hm, "spec.png")
