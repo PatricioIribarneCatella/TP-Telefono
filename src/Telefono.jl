@@ -1,7 +1,6 @@
 using WAV
-using DSP, Plots
-
-pyplot()
+using DSP, FFTW
+using Plots
 
 # Plots wave in time
 function plot_wave(s, fs)
@@ -69,7 +68,7 @@ function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 end
 
 function main(wav_file)
-
+	
 	# Read the WAV file
 	s, fs = wavread(wav_file)
 
@@ -77,6 +76,9 @@ function main(wav_file)
 	plot_frec(s, fs)
 	plot_spectrogram(s, fs)
 end
+
+# PyPlot backend renderer
+pyplot()
 
 # Main entry
 main("modemDialing.wav")
