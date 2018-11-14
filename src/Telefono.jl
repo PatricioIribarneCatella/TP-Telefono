@@ -9,7 +9,10 @@ function plot_wave(s, fs)
 	x_axis = (0:(length(s) - 1))./fs
 
 	# Plot it
-	p = plot(x_axis, s, title="Modem Dialing - fs: $fs", xlabel="Time [s]")
+	p = plot(x_axis, s,
+		 title="Modem Dialing - fs: $fs",
+		 xlabel="Time [s]",
+		 legend=false)
 	
 	# Save it in .png
 	savefig(p, "wave.png")
@@ -28,7 +31,10 @@ function plot_frec(s, fs)
 	x_axis = (0:length(Xshift)) * (fs/2)
 	
 	# Plot it
-	p = plot(x_axis, Xshift, title="Modem Dialing Frecuency Domain", xlabel="Freq [Hz]")
+	p = plot(x_axis, Xshift,
+		 title="Modem Dialing Frecuency Domain",
+		 xlabel="Freq [Hz]",
+		 legend=false)
 	
 	# Save it in .png
 	savefig(p, "wave-frec.png")
