@@ -1,6 +1,7 @@
 using WAV
 using DSP, FFTW
 using Plots
+using ArgParse
 
 # Plots wave in time
 function plot_wave(s, fs)
@@ -67,6 +68,7 @@ function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 	savefig(hm, "spec.png")
 end
 
+# Main entry
 function main(wav_file)
 	
 	# Read the WAV file
@@ -77,9 +79,23 @@ function main(wav_file)
 	plot_spectrogram(s, fs)
 end
 
-# PyPlot backend renderer
-pyplot()
+if PROGRAM_FILE == "Telefono.jl"
+	
+	# PyPlot backend renderer
+	pyplot()
 
-# Main entry
-main("modemDialing.wav")
+	# Parse the argument: wav file
+	s = ArgParseSettings("Audio dialing analisys")
+
+	@add_arg_table s begin
+		"--audio"
+		help = "The audio file (WAV)"
+		required = true
+	end
+
+	parsed_args = parse_args(ARGS, s)
+
+	main(parsed_args["audio"])
+end
+
 
