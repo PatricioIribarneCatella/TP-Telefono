@@ -1,7 +1,14 @@
-using WAV
-using DSP, Plots
+module Plotting
 
-pyplot()
+using DSP, FFTW
+using Plots
+
+export set_plot, plot_frec, plot_wave, plot_spectrogram
+
+# Sets backend renderer - PyPlot
+function set_plot()
+	pyplot()
+end
 
 # Plots wave in time
 function plot_wave(s, fs)
@@ -9,7 +16,10 @@ function plot_wave(s, fs)
 	x_axis = (0:(length(s) - 1))./fs
 
 	# Plot it
-	p = plot(x_axis, s, title="Modem Dialing - fs: $fs", xlabel="Time [s]")
+	p = plot(x_axis, s,
+		 title="Modem Dialing - fs: $fs",
+		 xlabel="Time [s]",
+		 legend=false)
 	
 	# Save it in .png
 	savefig(p, "wave.png")
@@ -21,14 +31,17 @@ function plot_frec(s, fs)
 	# FFT of the input wave
 	X = abs.(fft(s))
 
-	# Shift so the samples are
+	# Shift it, so the samples are
 	# shown as the real DFT is
 	Xshift = fftshift(X)
 
 	x_axis = (0:length(Xshift)) * (fs/2)
 	
 	# Plot it
-	p = plot(x_axis, Xshift, title="Modem Dialing Frecuency Domain", xlabel="Frec [Hz]")
+	p = plot(x_axis, Xshift,
+		 title="Modem Dialing Frecuency Domain",
+		 xlabel="Freq [Hz]",
+		 legend=false)
 	
 	# Save it in .png
 	savefig(p, "wave-frec.png")
@@ -37,7 +50,7 @@ end
 # Plots the spectrogram
 function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 
-	# Transform it in a Vector
+	# Transform it into a Vector
 	s = vec(s)
 
 	# Obtains the spectrogram
@@ -56,22 +69,11 @@ function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 
 	# Plot it (HeatMap)
 	hm = heatmap(t, fr, pow .+ eps() .|> log; seriescolor=:bluesreds,
-		     title="Spectrogram", xlabel="Time [s]", ylabel="Frec [Hz]")
+		     title="Spectrogram", xlabel="Time [s]", ylabel="Freq [Hz]")
 
 	# Save it in .png
 	savefig(hm, "spec.png")
 end
 
-function main(wav_file)
-
-	# Read the WAV file
-	s, fs = wavread(wav_file)
-
-	plot_wave(s, fs)
-	plot_frec(s, fs)
-	plot_spectrogram(s, fs)
-end
-
-# Main entry
-main("modemDialing.wav")
+end # module
 
