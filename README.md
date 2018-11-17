@@ -9,8 +9,9 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
 	- [_DSP_](https://juliaobserver.com/packages/DSP)
 	- [_Plots_](https://juliaobserver.com/packages/Plots) (con el _backend_ de **Python** - [_pyplot_](https://docs.juliaplots.org/latest/examples/pyplot/))
 	- [_FFTW_](https://juliaobserver.com/packages/FFTW)
+	- [_ArgParse_](https://juliaobserver.com/packages/ArgParse)
 
 ```bash
- $ julia Telefono.jl
+ $ julia Telefono.jl --audio=FILE.wav
 ```
 
