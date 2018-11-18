@@ -35,7 +35,7 @@ function plot_frec(s, fs)
 	# shown as the real DFT is
 	Xshift = fftshift(X)
 
-	x_axis = (0:length(Xshift)) * (fs/2)
+	x_axis = (0:(1/length(Xshift)):1) .* (fs/2)
 	
 	# Plot it
 	p = plot(x_axis, Xshift,
