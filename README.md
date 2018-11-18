@@ -14,5 +14,7 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
 
 ```bash
  $ julia SignalAnalisys.jl --audio=FILE.wav
+
+ $ julia SignalGenerator.jl
 ```
 
