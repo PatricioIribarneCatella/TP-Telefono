@@ -7,7 +7,7 @@ export generate_signal
 
 # Maps digits with its corresponding
 # output frecuencies
-get_frecs(digit, x, sample_frec) = @match digit begin
+get_frecs(digit, x, time, sample_frec) = @match digit begin
 	"0" => sen(x, 941, sample_frec) .+ sen(x, 1336, sample_frec)
 	"1" => sen(x, 697, sample_frec) .+ sen(x, 1209, sample_frec)
 	"2" => sen(x, 697, sample_frec) .+ sen(x, 1336, sample_frec)
@@ -24,7 +24,7 @@ get_frecs(digit, x, sample_frec) = @match digit begin
 	"B" => sen(x, 770, sample_frec) .+ sen(x, 1633, sample_frec)
 	"C" => sen(x, 852, sample_frec) .+ sen(x, 1633, sample_frec)
 	"D" => sen(x, 941, sample_frec) .+ sen(x, 1633, sample_frec)
-	"s" => zeros(time*sample_frec + 1)
+	"s" => zeros(Integer(time*sample_frec) + 1)
 end
 
 function sen(x, frec, sample_frec)
@@ -42,16 +42,22 @@ end
 # - 'time': tones duration
 # - 'sample_frec': sample frecuency
 #
-function generate_signal(sequence, time, sample_frec)
+function generate_signal(sequence, time=0.070, sample_frec=8000)
 
 	res = []
 
-	x = x
+	x = [0:time*sample_frec;]
 
 	for digit in sequence
-		y = get_frecs(digit, x, sample_frec)
+		y = get_frecs(digit, x, time, sample_frec)
 		res = [res; y]
 	end
+
+	# Transform it in a 64 bit float 'Array'
+	res = Array{Float64,1}(res)
+
+	# Store it a WAV file
+	wavwrite(res, "tone.wav", Fs=sample_frec)
 
 	return res
 end
