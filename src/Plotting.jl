@@ -31,20 +31,40 @@ function plot_frec(s, fs)
 	# FFT of the input wave
 	X = abs.(fft(s))
 
-	# Shift it, so the samples are
-	# shown as the real DFT is
+	# Shift the returned spectrum
 	Xshift = fftshift(X)
 
-	x_axis = (0:(1/length(Xshift)):1) .* (fs/2)
-	
-	# Plot it
-	p = plot(x_axis, Xshift,
+	# In Hertz
+	x_axis = (0:(1/length(X)):1) .* fs
+
+	# In Omega (w)
+	x_axis_omega = (-1:(1/length(X)):1) .* fs
+
+	# Find the middle of the x_axis
+	# to get the first half of the returned
+	# spectrum
+	x_end = findfirst(x -> x >= (fs/2), x_axis)
+
+	x_neg = findfirst(x -> x >= -(fs/2), x_axis_omega)
+	x_pos = findfirst(x -> x >= (fs/2), x_axis_omega)
+
+	# Frecuency plot
+	p = plot(x_axis[1:x_end], X[1:x_end],
 		 title="Modem Dialing Frecuency Domain",
 		 xlabel="Freq [Hz]",
-		 legend=false)
+		 legend=false);
 	
 	# Save it in .png
 	savefig(p, "wave-frec.png")
+
+	# Omega plot
+	p = plot(x_axis_omega[x_neg:x_pos], Xshift,
+		 title="Modem Dialing Omega Frecuency Domain",
+		 xlabel="Freq [w]",
+		 legend=false);
+
+	# Save it in .png
+	savefig(p, "wave-frec-omega.png")
 end
 
 # Plots the spectrogram
