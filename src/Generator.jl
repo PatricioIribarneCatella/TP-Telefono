@@ -7,7 +7,7 @@ export generate_signal
 
 # Maps digits with its corresponding
 # output frecuencies
-get_frecs(digit, x, time, sample_frec) = @match digit begin
+get_frecs(digit, x, silence_samples) = @match digit begin
 	"0" => sen(x, 941) .+ sen(x, 1336)
 	"1" => sen(x, 697) .+ sen(x, 1209)
 	"2" => sen(x, 697) .+ sen(x, 1336)
@@ -24,7 +24,7 @@ get_frecs(digit, x, time, sample_frec) = @match digit begin
 	"B" => sen(x, 770) .+ sen(x, 1633)
 	"C" => sen(x, 852) .+ sen(x, 1633)
 	"D" => sen(x, 941) .+ sen(x, 1633)
-	"_" => zeros(Integer(time*sample_frec) + 1)
+	"_" => zeros(silence_samples)
 end
 
 function sen(x, frec)
@@ -42,14 +42,16 @@ end
 # - 'time': tones duration
 # - 'sample_frec': sample frecuency
 #
-function generate_signal(sequence, time=0.070, sample_frec=8000)
+function generate_signal(sequence, time=0.070, sample_frec=8000, silence_time=0.070)
 
 	res = []
 
 	x = (0:(1/sample_frec):time)
 
+	silence_samples = Integer(sample_frec * silence_time) + 1
+
 	for digit in sequence
-		y = get_frecs(digit, x, time, sample_frec)
+		y = get_frecs(digit, x, silence_samples)
 		res = [res; y]
 	end
 
