@@ -6,6 +6,8 @@ function main(wav_path, win_size)
 	
 	s, fs = wavread(wav_path)
 
+	s = vec(s)
+
 	e = s .^ 2
 
 	N = win_size

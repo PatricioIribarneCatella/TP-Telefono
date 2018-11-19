@@ -9,6 +9,6 @@ end
 
 if PROGRAM_FILE == "SignalGenerator.jl"
 
-	main(["*", "s", "1", "s", "5", "s", "0", "s", "#"])
+	main(["*", "_", "1", "_", "5", "_", "0", "_", "#"])
 end
 
