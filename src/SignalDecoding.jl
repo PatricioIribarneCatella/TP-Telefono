@@ -32,14 +32,14 @@ function main(wav_path, win_size)
 	thres = ones(length(y1)) .* 0.0125
 
 	# Detecting tones and silences
-	plot_pulses = map(x -> Int(x), y1 .> thres) .* 0.025
-	pulses = y1 .> thres
+	pulses = map(x -> Int(x), y1 .> thres)
 
-	# Indexes where samples are greater than threshold
-	whe = findall(pulses)
+	# To detect where the is the
+	# start and end of each pulse
+	differ = diff(pulses)
 
-	# How long the pulses are (how many consecutive ones)
-	differ = diff(whe)
+	one_idxs = map(x -> x + 1, findall(x -> x == 1, differ))
+	minus_one_idxs = findall(x -> x == -1, differ)
 
 	p = plot(y_axis, [e, y1, thres, pulses], title="Signal Energy Windowed (Win: $N)",
 	     xlabel="Time [s]", lengend=false)
