@@ -11,22 +11,26 @@ function set_plot()
 end
 
 # Plots wave in time
-function plot_wave(s, fs)
+function plot_wave(s, fs,
+		   plot_title="Modem Dialing",
+		   image_name="wave")
 
 	x_axis = (0:(length(s) - 1))./fs
 
 	# Plot it
 	p = plot(x_axis, s,
-		 title="Modem Dialing - fs: $fs",
+		 title="$plot_title - fs: $fs",
 		 xlabel="Time [s]",
 		 legend=false)
 	
 	# Save it in .png
-	savefig(p, "wave.png")
+	savefig(p, "$image_name.png")
 end
 
 # Plots wave in frecuency
-function plot_frec(s, fs)
+function plot_frec(s, fs,
+		   plot_title="Modem Dialing",
+		   image_name="wave-frec")
 
 	# FFT of the input wave
 	X = abs.(fft(s))
@@ -50,25 +54,28 @@ function plot_frec(s, fs)
 
 	# Frecuency plot
 	p = plot(x_axis[1:x_end], X[1:x_end],
-		 title="Modem Dialing Frecuency Domain",
+		 title="$plot_title Frecuency Domain",
 		 xlabel="Freq [Hz]",
 		 legend=false);
 	
 	# Save it in .png
-	savefig(p, "wave-frec.png")
+	savefig(p, "$image_name.png")
 
 	# Omega plot
 	p = plot(x_axis_omega[x_neg:x_pos], Xshift,
-		 title="Modem Dialing Omega Frecuency Domain",
+		 title="$plot_title Omega Frecuency Domain",
 		 xlabel="Freq [w]",
 		 legend=false);
 
 	# Save it in .png
-	savefig(p, "wave-frec-omega.png")
+	savefig(p, "$image_name-omega.png")
 end
 
 # Plots the spectrogram
-function plot_spectrogram(s, fs, win=tukey(256, 0.5))
+function plot_spectrogram(s, fs,
+			  win=tukey(256, 0.5),
+			  plot_title="Modem Dialing",
+			  image_name="spec")
 
 	# Transform it into a Vector
 	s = vec(s)
@@ -89,10 +96,10 @@ function plot_spectrogram(s, fs, win=tukey(256, 0.5))
 
 	# Plot it (HeatMap)
 	hm = heatmap(t, fr, pow .+ eps() .|> log; seriescolor=:bluesreds,
-		     title="Spectrogram", xlabel="Time [s]", ylabel="Freq [Hz]")
+		     title="$plot_title Spectrogram", xlabel="Time [s]", ylabel="Freq [Hz]")
 
 	# Save it in .png
-	savefig(hm, "spec.png")
+	savefig(hm, "$image_name.png")
 end
 
 end # module
