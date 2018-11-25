@@ -4,7 +4,7 @@ using Generator
 
 function main(sequence)
 
-	generate_signal(sequence)
+	generate_signal(sequence, time=0.090)
 end
 
 if PROGRAM_FILE == "SignalGenerator.jl"

@@ -42,7 +42,7 @@ end
 # - 'time': tones duration
 # - 'sample_frec': sample frecuency
 #
-function generate_signal(sequence, time=0.070, sample_frec=8000, silence_time=0.070)
+function generate_signal(sequence; time=0.070, sample_frec=8000, silence_time=0.070)
 
 	res = []
 

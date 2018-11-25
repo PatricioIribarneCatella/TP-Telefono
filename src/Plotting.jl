@@ -11,7 +11,7 @@ function set_plot()
 end
 
 # Plots wave in time
-function plot_wave(s, fs,
+function plot_wave(s, fs;
 		   plot_title="Modem Dialing",
 		   image_name="wave")
 
@@ -28,7 +28,7 @@ function plot_wave(s, fs,
 end
 
 # Plots wave in frecuency
-function plot_frec(s, fs,
+function plot_frec(s, fs;
 		   plot_title="Modem Dialing",
 		   image_name="wave-frec")
 
@@ -72,7 +72,7 @@ function plot_frec(s, fs,
 end
 
 # Plots the spectrogram
-function plot_spectrogram(s, fs,
+function plot_spectrogram(s, fs;
 			  win=tukey(256, 0.5),
 			  plot_title="Modem Dialing",
 			  image_name="spec")
