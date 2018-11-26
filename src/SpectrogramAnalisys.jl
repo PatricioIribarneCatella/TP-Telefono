@@ -1,5 +1,6 @@
 using WAV
 using DSP
+using ArgParse
 
 push!(LOAD_PATH, pwd())
 
