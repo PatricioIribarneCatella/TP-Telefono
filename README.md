@@ -16,7 +16,12 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
 ```bash
  $ julia SignalAnalisys.jl --audio=FILE.wav
 
- $ julia SignalGenerator.jl
+ $ julia SignalGenerator.jl --sequence=SEQUENCE [--time=NUM(70 ms) | --silence-time=NUM(70 ms)]
+
+	(SEQUENCE de la siguiente forma = "*_1_5_0_#"
+		con al menos un '_' que simboliza un silencio)
+
+ $ julia SignalDecoding.jl --audio=FILE.wav
 
  $ julia FundamentalPeriods.jl
 ```
