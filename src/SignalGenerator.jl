@@ -4,6 +4,7 @@ push!(LOAD_PATH, pwd())
 
 using Generator
 
+# Main entry
 function main(sequence, time, silence_time)
 
 	generate_signal(sequence, time=time, silence_time=silence_time)
@@ -11,6 +12,7 @@ end
 
 if PROGRAM_FILE == "SignalGenerator.jl"
 
+	# Parse the arguments
 	s = ArgParseSettings("Audio dialing generator")
 
 	@add_arg_table s begin
