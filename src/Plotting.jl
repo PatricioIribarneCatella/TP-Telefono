@@ -38,22 +38,19 @@ function plot_frec(s, fs;
 	# Shift the returned spectrum
 	Xshift = fftshift(X)
 
+	X = X[1:div(end,2)]
+
 	# In Hertz
-	x_axis = (0:(1/length(X)):1) .* fs
+	x_axis = (0:(1/length(X)):1) .* (fs/2)
 
 	# In Omega (w)
-	x_axis_omega = (-1:(1/length(X)):1) .* fs
-
-	# Find the middle of the x_axis
-	# to get the first half of the returned
-	# spectrum
-	x_end = findfirst(x -> x >= (fs/2), x_axis)
+	x_axis_omega = (-1:(1/length(Xshift)):1) .* fs
 
 	x_neg = findfirst(x -> x >= -(fs/2), x_axis_omega)
 	x_pos = findfirst(x -> x >= (fs/2), x_axis_omega)
 
 	# Frecuency plot
-	p = plot(x_axis[1:x_end], X[1:x_end],
+	p = plot(x_axis, X,
 		 title="$plot_title Frecuency Domain",
 		 xlabel="Freq [Hz]",
 		 legend=false);
