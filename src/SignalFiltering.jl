@@ -11,13 +11,17 @@ function main(wav_file)
 
 	s = vec(s)
 
-	k = 100
+	# Create the filter
+
+	k = 40
 
 	x_h = k .* (-1:(1/fs):1)
 
 	h = sinc.(x_h)
 
-	wc = ((2*pi)/fs) * 500
+	fc = 697
+
+	wc = ((2*pi)/fs) * fc
 
 	h_bp = h .* cos.((1:length(h)) .* wc)
 
@@ -29,7 +33,17 @@ function main(wav_file)
 
 	p = plot(x_Hbp, H_bp, legend=false, xticks=(0:500:(fs/2)))
 	
-	savefig(p, "filter-500.png")
+	savefig(p, "filter-$fc.png")
+
+	# Filter the signal
+	
+	y = conv(s, h_bp)
+
+	y_axis = (0:(length(y) - 1))./fs
+
+	p = plot(y_axis, y, legend=false)
+
+	savefig(p, "filtered-signal-$fc.png")
 end
 
 if PROGRAM_FILE == "SignalFiltering.jl"
