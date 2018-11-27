@@ -1,9 +1,10 @@
 using WAV
-using DSP, FFTW
-using Plots
 using ArgParse
 
 push!(LOAD_PATH, pwd())
+
+using Filters
+using Plotting
 
 function main(wav_file)
 	
@@ -11,44 +12,64 @@ function main(wav_file)
 
 	s = vec(s)
 
-	# Create the filter
+	# Filters
+	y = filter_signal(s, fs, fc=697, width=40)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:697",
+		  image_name="sign-filt-697")
 
-	k = 40
+	y = filter_signal(s, fs, fc=770, width=40)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:770",
+		  image_name="sign-filt-770")
 
-	x_h = k .* (-1:(1/fs):1)
+	y = filter_signal(s, fs, fc=852, width=40)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:852",
+		  image_name="sign-filt-852")
 
-	h = sinc.(x_h)
+	y = filter_signal(s, fs, fc=941, width=40)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:941",
+		  image_name="sign-filt-941")
 
-	fc = 697
+	y = filter_signal(s, fs, fc=1209, width=50)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:1209",
+		  image_name="sign-filt-1209")
 
-	wc = ((2*pi)/fs) * fc
+	y = filter_signal(s, fs, fc=1336, width=50)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:1336",
+		  image_name="sign-filt-1336")
 
-	h_bp = h .* cos.((1:length(h)) .* wc)
+	y = filter_signal(s, fs, fc=1477, width=50)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:1477",
+		  image_name="sign-filt-1477")
 
-	H_bp = abs.(fft(h_bp))
-
-	H_bp = H_bp[1:div(end, 2)]
-
-	x_Hbp = (0:(1/length(H_bp)):1) .* (fs/2)
-
-	p = plot(x_Hbp, H_bp, legend=false, xticks=(0:500:(fs/2)))
-	
-	savefig(p, "filter-$fc.png")
-
-	# Filter the signal
-	
-	y = conv(s, h_bp)
-
-	y_axis = (0:(length(y) - 1))./fs
-
-	p = plot(y_axis, y, legend=false)
-
-	savefig(p, "filtered-signal-$fc.png")
+	y = filter_signal(s, fs, fc=1633, width=50)
+	plot_wave(y, fs,
+		  plot_title="Siganl filtered fc:1633",
+		  image_name="sign-filt-1633")
 end
 
 if PROGRAM_FILE == "SignalFiltering.jl"
-	
-	pyplot()
 
-	main("dialing.wav")
+	set_plot()
+
+	# Parse the argument
+	s = ArgParseSettings("Audio filtering decoder")
+
+	@add_arg_table s begin
+		"--audio"
+		help = "The audio to be decoded"
+		required = true
+	end
+
+	parsed_args = parse_args(ARGS, s)
+
+	main(parsed_args["audio"])
 end
+
+

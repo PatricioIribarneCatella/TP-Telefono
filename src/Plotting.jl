@@ -3,7 +3,7 @@ module Plotting
 using DSP, FFTW
 using Plots
 
-export set_plot, plot_frec, plot_wave, plot_spectrogram
+export set_plot, plot_frec, plot_wave, plot_spectrogram, plot_zplane
 
 # Sets backend renderer - PyPlot
 function set_plot()
@@ -97,6 +97,25 @@ function plot_spectrogram(s, fs;
 
 	# Save it in .png
 	savefig(hm, "$image_name.png")
+end
+
+function plot_zplane(h)
+
+	fil = PolynomialRatio(h, [1])
+
+	zpg = ZeroPoleGain(fil)
+
+	zs = zpg.z
+	ps = zpg.p
+	
+	length(zs) > length(ps) && (push!(ps, 0))
+
+	Plots.scatter(real.(zs), imag.(zs),
+		marker = (:black, :circle), label="Zero")
+	Plots.scatter!( real.(ps), imag.(ps),
+		marker = (:red, :diamond), label="Pole")
+
+	savefig("zero-pole.png")
 end
 
 end # module
