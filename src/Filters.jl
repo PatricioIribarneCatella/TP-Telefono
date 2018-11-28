@@ -2,7 +2,7 @@ module Filters
 
 using DSP, FFTW
 
-export filter_signal
+export decode
 
 function get_filter(fs, width, fc)
 
@@ -28,6 +28,26 @@ function filter_signal(s, fs; width, fc)
 	y = conv(s, bp)
 
 	return y
+end
+
+function decode(s, fs)
+
+	# Filters
+	y = filter_signal(s, fs, fc=697, width=40)
+
+	y = filter_signal(s, fs, fc=770, width=40)
+
+	y = filter_signal(s, fs, fc=852, width=40)
+
+	y = filter_signal(s, fs, fc=941, width=40)
+
+	y = filter_signal(s, fs, fc=1209, width=50)
+
+	y = filter_signal(s, fs, fc=1336, width=50)
+
+	y = filter_signal(s, fs, fc=1477, width=50)
+
+	y = filter_signal(s, fs, fc=1633, width=50)
 end
 
 end # module
