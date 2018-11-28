@@ -110,10 +110,15 @@ function plot_zplane(h)
 	
 	length(zs) > length(ps) && (push!(ps, 0))
 
-	Plots.scatter(real.(zs), imag.(zs),
-		marker = (:black, :circle), label="Zero")
-	Plots.scatter!( real.(ps), imag.(ps),
-		marker = (:red, :diamond), label="Pole")
+	scatter(real.(zs), imag.(zs),
+		color=[:black],
+		marker=:circle,
+		label="Zero")
+
+	scatter!(real.(ps), imag.(ps),
+		color=[:red],
+		marker=:diamond,
+		label="Pole")
 
 	savefig("zero-pole.png")
 end
