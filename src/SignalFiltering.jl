@@ -9,8 +9,6 @@ function main(wav_file)
 	
 	s, fs = wavread(wav_file)
 
-	s = vec(s)
-
 	sequence = decode(s, fs)
 
 	print("The dialing code is: ")

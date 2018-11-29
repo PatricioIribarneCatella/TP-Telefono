@@ -32,6 +32,8 @@ end
 
 function decode(s, fs)
 
+	s = vec(s)
+	
 	# Filters
 	y = filter_signal(s, fs, fc=697, width=40)
 
