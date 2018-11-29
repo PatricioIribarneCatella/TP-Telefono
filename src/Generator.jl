@@ -3,7 +3,7 @@ module Generator
 using WAV
 using Match
 
-export generate_signal
+export generate_signal, generate_frecs
 
 # Maps digits with its corresponding
 # output frecuencies
@@ -92,6 +92,38 @@ function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70)
 	wavwrite(res, "tone.wav", Fs=sample_frec)
 
 	return res
+end
+
+# Generates a new signal based on the
+# frequencies in the 'tones' array
+#
+# - freqs: [(f1,f2), (f1,f2), ..]
+function generate_frecs(tones; time=70, silence_time=70)
+	
+	sample_frec = 8000
+	time /= 1000
+	silence_time /= 1000
+
+	res = []
+
+	x = (0:(1/sample_frec):time)
+
+	silence_samples = Integer(sample_frec * silence_time) + 1
+	
+	for freqs in tones
+
+		# Tone generation
+		y = sen(x, freqs[1]) .+ sen(x, freqs[1])
+		res = [res; y]
+
+		# Silence generation
+		y = zeros(silence_samples)
+		res = [res; y]
+	end
+
+	res = Array{Float64,1}(res)
+
+	wavwrite(res, "tone-$tones.wav", Fs=sample_frec)
 end
 
 end # module
