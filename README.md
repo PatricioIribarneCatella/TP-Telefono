@@ -19,9 +19,11 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
  $ julia SignalGenerator.jl --sequence=SEQUENCE [--time=NUM(70 ms) | --silence-time=NUM(70 ms)]
 
 	(SEQUENCE de la siguiente forma = "*_1_5_0_#"
-		con al menos un '_' que simboliza un silencio)
+		con al menos un '_' entre símbolos para marcar un silencio)
 
  $ julia SignalDecoding.jl --audio=FILE.wav
+
+ $ julia SignalFiltering.jl --audio=FILE.wav
 
  $ julia FundamentalPeriods.jl
 ```
