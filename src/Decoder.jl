@@ -32,8 +32,8 @@ function find_data_samples(x, window, get_threshold)
 	# Detecting tones and silences
 	pulses = map(x -> Int(x), y1 .> thres)
 
-	# To detect where the is the
-	# start and end of each pulse
+	# To detect where the
+	# start and end of each pulse are
 	differ = diff(pulses)
 
 	# Indexes where the pulses start
@@ -48,7 +48,7 @@ end
 function get_time_window(fs)
 
 	# The samples per period
-	# The longest period is for the largest freq
+	# The longest period is for the smallest freq
 	# In this case: 697 Hz ~ 500 Hz
 	samples_period = Int(0.005 * fs)
 
