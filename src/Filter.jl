@@ -81,7 +81,7 @@ function analyze_pulses(lowy, highy, lowf, highf, fs)
 	y = y .* (maximum(abs.(e))/maximum(abs.(y)))
 
 	# Threshold
-	thres = ones(length(y)) .* (1.5)
+	thres = ones(length(y)) .* (1.45)
 
 	# Detect frequency pulses from the other things
 	pulses = map(x -> Int(x), y .> thres)
