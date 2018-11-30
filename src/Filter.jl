@@ -49,28 +49,19 @@ function filter_signal(s, fs; width, fc)
 	# Filter the signal
 	y = conv(s, bp)
 
-	# Normalize
-	y = y ./ maximum(abs.(y))
-
 	return y
 end
 
-function analyze_pulses(lowy, highy, lowf, highf, fs)
-
-	# Energies
-	lowe = lowy .^ 2
-	highe = highy .^ 2
-
-	# Normalize energies
-	lowe = lowe ./ maximum(abs.(lowe))
-	highe = highe ./ maximum(abs.(highe))
-
-	# Sum of the energies
-	e = lowe .+ highe
-
-	N = Int(round((1/lowf) * fs)) * 3;
+function get_window(fs, f)
+	
+	N = Int(round((1/f) * fs)) * 3;
 
 	win = tukey(N, 0.50)
+
+	return win
+end
+
+function get_envolvent(win, e)
 
 	# Envolvent
 	y = conv(win, e)
@@ -79,6 +70,11 @@ function analyze_pulses(lowy, highy, lowf, highf, fs)
 
 	# Normalize envolvent
 	y = y .* (maximum(abs.(e))/maximum(abs.(y)))
+
+	return y
+end
+
+function detect_pulses(y)
 
 	# Threshold
 	thres = ones(length(y)) .* (1.45)
@@ -93,11 +89,58 @@ function analyze_pulses(lowy, highy, lowf, highf, fs)
 	# Indexes where the pulses start
 	pulses_start = map(x -> x + 1, findall(x -> x == 1, differ))
 
+	return pulses_start
+end	
+
+function analyze_pulses(lowy, highy, lowf, highf, fs)
+
+	# Energies
+	lowe = lowy .^ 2
+	highe = highy .^ 2
+
+	# Store max in energy to 
+	# compare at the end
+	maxe = (maximum(abs.(lowe)) + maximum(abs.(highe))) / 2
+
+	# Normalize energies
+	lowe = lowe ./ maximum(abs.(lowe))
+	highe = highe ./ maximum(abs.(highe))
+
+	# Sum of the energies
+	e = lowe .+ highe
+
+	win = get_window(fs, lowf)
+
+	y = get_envolvent(win, e)
+
+	pulses = detect_pulses(y)
+
 	# Symbol mapping
 	sym = get_symbol(lowf, highf)
-	pulses_start = map(x -> (sym, x), pulses_start)
+	pulses = map(x -> (sym, x, maxe), pulses)
 
-	return pulses_start
+	return pulses
+end
+
+function analyze_energy(symbols)
+
+	# Analize maximums of energy
+	max_energies = map(x -> x[3], symbols)
+	maxe = maximum(max_energies)
+
+	# Normalize energy maximums
+	symbols = map(x -> (x[1], x[2], x[3]/maxe), symbols)
+
+	# Discard the elements that do not pass
+	# the energy threshold of 20%
+	symbols = filter(x -> x[3] > 0.20, symbols)
+
+	# Sort by sample starting
+	sort!(symbols, by = x -> x[2])
+
+	symbols = map(x -> x[1], symbols)
+
+	return symbols
 end
 
 function decode(s, fs)
@@ -131,15 +174,16 @@ function decode(s, fs)
 		lowy = filter_signal(s, fs, fc=lowf, width=40)
 		
 		for highf in [1209, 1336, 1477, 1633]
+			
 			highy = filter_signal(s, fs, fc=highf, width=50)
+			
 			syms = analyze_pulses(lowy, highy, lowf, highf, fs)
+			
 			append!(symbols, syms)
 		end
 	end
 
-	sort!(symbols, by = x -> x[2])
-
-	symbols = map(x -> x[1], symbols)
+	symbols = analyze_energy(symbols)
 
 	return symbols
 end
