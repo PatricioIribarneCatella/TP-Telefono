@@ -3,7 +3,7 @@ using ArgParse
 
 push!(LOAD_PATH, pwd())
 
-using Filters
+using Filter
 
 function main(wav_file)
 	
