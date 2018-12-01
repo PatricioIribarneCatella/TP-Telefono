@@ -130,7 +130,7 @@ function plot_phase(h, fc, fs)
 
 	X = X[1:div(end, 2)]
 
-	ph = rad2deg.(unwrap(angle.(X)))
+	ph = unwrap(angle.(X))
 
 	x_axis = (0:(1/length(ph)):1) .* (fs/2);
 
