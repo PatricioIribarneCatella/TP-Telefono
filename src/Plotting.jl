@@ -121,7 +121,26 @@ function plot_zplane(h, fc)
 		marker=:diamond,
 		label="Pole")
 
-	savefig("zero-pole.png")
+	savefig("zero-pole-filter-$fc.png")
+end
+
+function plot_phase(h, fc, fs)
+
+	X = fft(h)
+
+	X = X[1:div(end, 2)]
+
+	ph = rad2deg.(unwrap(angle.(X)))
+
+	x_axis = (0:(1/length(ph)):1) .* (fs/2);
+
+	p = plot(x_axis, ph,
+		 xlabel="Frec [Hz]",
+		 ylabel="Phase [°]"
+		 title="Phase diagram - Filter: $fc Hz",
+		 legend=false)
+
+	savefig(p, "phase-filter-$fc.png")
 end
 
 end # module
