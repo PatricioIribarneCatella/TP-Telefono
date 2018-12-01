@@ -14,7 +14,7 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
 	- [_Match_](https://juliaobserver.com/packages/Match)
 
 ```bash
- $ julia SignalAnalisys.jl --audio=FILE.wav
+ $ julia SignalAnalysis.jl --audio=FILE.wav
 
  $ julia SignalGenerator.jl --sequence=SEQUENCE [--time=NUM(70 ms) |
 						 --silence-time=NUM(70 ms) |
@@ -27,7 +27,9 @@ Análisis del audio de un discado telefónico (Señales y Sistemas)
 
  $ julia SignalFiltering.jl --audio=FILE.wav
 
- $ julia SpectrogramAnalisys.jl --audio=FILE.wav
+ $ julia SpectrogramAnalysis.jl --audio=FILE.wav
+
+ $ julia ZeroPoleAnalysis.jl
 
  $ julia FundamentalPeriods.jl
 ```
