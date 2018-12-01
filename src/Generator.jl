@@ -113,7 +113,7 @@ function generate_frecs(tones; time=70, silence_time=70)
 	for freqs in tones
 
 		# Tone generation
-		y = sen(x, freqs[1]) .+ sen(x, freqs[1])
+		y = sen(x, freqs[1]) .+ sen(x, freqs[2])
 		res = [res; y]
 
 		# Silence generation
