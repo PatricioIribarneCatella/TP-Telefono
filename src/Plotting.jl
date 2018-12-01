@@ -99,7 +99,7 @@ function plot_spectrogram(s, fs;
 	savefig(hm, "$image_name.png")
 end
 
-function plot_zplane(h)
+function plot_zplane(h, fc)
 
 	fil = PolynomialRatio(h, [1])
 
@@ -113,7 +113,8 @@ function plot_zplane(h)
 	scatter(real.(zs), imag.(zs),
 		color=[:black],
 		marker=:circle,
-		label="Zero")
+		label="Zero",
+		title="Zero-Pole diagram - Filter: $fc Hz")
 
 	scatter!(real.(ps), imag.(ps),
 		color=[:red],
