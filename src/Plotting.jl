@@ -3,7 +3,7 @@ module Plotting
 using DSP, FFTW
 using Plots
 
-export set_plot, plot_frec, plot_wave, plot_spectrogram, plot_zplane
+export set_plot, plot_frec, plot_wave, plot_spectrogram, plot_zplane, plot_phase
 
 # Sets backend renderer - PyPlot
 function set_plot()
