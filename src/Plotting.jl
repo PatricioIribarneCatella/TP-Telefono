@@ -136,9 +136,10 @@ function plot_phase(h, fc, fs)
 
 	p = plot(x_axis, ph,
 		 xlabel="Frec [Hz]",
-		 ylabel="Phase [°]",
+		 ylabel="Phase [rad]",
 		 title="Phase diagram - Filter: $fc Hz",
-		 legend=false)
+		 legend=false,
+		 xticks=(0:500:(fs/2)))
 
 	savefig(p, "phase-filter-$fc.png")
 end
