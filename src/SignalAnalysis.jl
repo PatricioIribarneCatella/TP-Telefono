@@ -21,7 +21,7 @@ if PROGRAM_FILE == "SignalAnalisys.jl"
 	# Set backend renderer
 	set_plot()
 
-	# Parse the argument: wav file
+	# Parse the argument
 	s = ArgParseSettings("Audio dialing analisys")
 
 	@add_arg_table s begin
