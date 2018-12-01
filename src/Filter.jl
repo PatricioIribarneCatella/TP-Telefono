@@ -3,7 +3,7 @@ module Filter
 using DSP, FFTW
 using Match
 
-export decode, filter_signal
+export decode, filter_signal, get_filter
 
 get_symbol(f1, f2) = @match (f1, f2) begin
 
