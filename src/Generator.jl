@@ -1,6 +1,7 @@
 module Generator
 
 using WAV
+using DSP
 using Match
 
 export generate_signal, generate_frecs
@@ -66,7 +67,7 @@ end
 # - 'time': tones duration
 # - 'sample_frec': sample frecuency
 #
-function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70)
+function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70, noise=false)
 
 	# Leave them in miliseconds
 	time /= 1000
@@ -83,6 +84,19 @@ function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70)
 	for digit in sequence
 		y = get_frecs(digit, x, silence_samples)
 		res = [res; y]
+	end
+
+	# Add noise
+	noise_signal = []
+	if noise
+		noise_power = 0.00001*sample_frec/2
+		
+		noise_signal = gaussian(length(res), sqrt(noise_power))
+		exp_drec = exp.((0:(length(noise_signal) - 1)) ./ (-sample_frec*5))
+		
+		noise_signal .*= exp_drec
+		
+		res .+= noise_signal
 	end
 
 	# Transform it in a 64 bit float 'Array'

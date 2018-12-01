@@ -136,7 +136,7 @@ function plot_phase(h, fc, fs)
 
 	p = plot(x_axis, ph,
 		 xlabel="Frec [Hz]",
-		 ylabel="Phase [°]"
+		 ylabel="Phase [°]",
 		 title="Phase diagram - Filter: $fc Hz",
 		 legend=false)
 
