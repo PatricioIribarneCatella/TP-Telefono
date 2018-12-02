@@ -5,12 +5,13 @@ push!(LOAD_PATH, pwd())
 using Generator
 
 # Main entry
-function main(sequence, time, silence_time, noise)
+function main(sequence, time, silence_time, noise, out)
 
 	generate_signal(sequence,
 			time=time,
 			silence_time=silence_time,
-			noise=noise)
+			noise=noise,
+			out_file=out)
 end
 
 if PROGRAM_FILE == "SignalGenerator.jl"
@@ -35,6 +36,9 @@ if PROGRAM_FILE == "SignalGenerator.jl"
 			help = "Add white noise to the signal"
 			default = false
 			arg_type = Bool
+		"--out"
+			help = "Output file name with the file extension"
+			default = "tone.wav"
 	end
 
 	parsed_args = parse_args(ARGS, s)
@@ -42,6 +46,7 @@ if PROGRAM_FILE == "SignalGenerator.jl"
 	main(parsed_args["sequence"],
 	     parsed_args["time"],
 	     parsed_args["silence-time"],
-	     parsed_args["noise"])
+	     parsed_args["noise"],
+	     parsed_args["out"])
 end
 

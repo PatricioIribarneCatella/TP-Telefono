@@ -169,13 +169,16 @@ function decode(s, fs)
 	
 	symbols = []
 
+	high_frecs = Dict([f => filter_signal(s, fs, fc=f, width=50)
+			   for f in [1209, 1336, 1477, 1633]])
+
 	for lowf in [697, 770, 852, 941]
 
 		lowy = filter_signal(s, fs, fc=lowf, width=40)
 		
 		for highf in [1209, 1336, 1477, 1633]
 			
-			highy = filter_signal(s, fs, fc=highf, width=50)
+			highy = high_frecs[highf]
 			
 			syms = analyze_pulses(lowy, highy, lowf, highf, fs)
 			
