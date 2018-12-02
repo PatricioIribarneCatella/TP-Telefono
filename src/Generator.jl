@@ -67,7 +67,7 @@ end
 # - 'time': tones duration
 # - 'sample_frec': sample frecuency
 #
-function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70, noise=false)
+function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70, noise=false, out_file="tone.wav")
 
 	# Leave them in miliseconds
 	time /= 1000
@@ -103,7 +103,7 @@ function generate_signal(sequence; time=70, sample_frec=8000, silence_time=70, n
 	res = Array{Float64,1}(res)
 
 	# Store it in a WAV file
-	wavwrite(res, "tone.wav", Fs=sample_frec)
+	wavwrite(res, out_file, Fs=sample_frec)
 
 	return res
 end
