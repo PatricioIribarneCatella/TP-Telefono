@@ -69,7 +69,7 @@ function main(wav_file)
 
 end
 
-if PROGRAM_FILE == "SpectrogramAnalisys.jl"
+if PROGRAM_FILE == "SpectrogramAnalysis.jl"
 
 	# Set backend renderer
 	set_plot()

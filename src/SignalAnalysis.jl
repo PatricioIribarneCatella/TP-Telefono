@@ -16,7 +16,7 @@ function main(wav_file)
 	plot_spectrogram(s, fs)
 end
 
-if PROGRAM_FILE == "SignalAnalisys.jl"
+if PROGRAM_FILE == "SignalAnalysis.jl"
 	
 	# Set backend renderer
 	set_plot()
